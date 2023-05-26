@@ -1,0 +1,22 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+Intended Build Version:  core/bl2.1.0
+build-docker.sh Version: core/v2.6.0
+Build Command:           build-docker.sh --skip-bitcoinonly --skip-legacy core/bl2.1.0
+Source Binary tag:       core/v2.6.0
+Bootloader Build?:       1
+
+1b4845b2d2869eece07c3b287ad0acf036f7ba61efc39acb2cc01ed45490d2c6  repo/core/embed/firmware/bootloaders/bootloader_T2T1.bin
+1b4845b2d2869eece07c3b287ad0acf036f7ba61efc39acb2cc01ed45490d2c6  repo/build/core/bootloader/bootloader.bin
+-----BEGIN PGP SIGNATURE-----
+
+iQFEBAEBCAAuFiEEYoX6CPtntyvk2kGEg18EM6bVGGAFAmRvqU8QHGJyaWFuZGRr
+QHJlZGRpdAAKCRCDXwQzptUYYG/iCAC4qENDJL7gSOwu+/RJE3Vbu8cSpuqujwly
+dHggv+eO/9OIcdF3o5BLtXH5c6DZGPn+oMQzwrvMfR0L9Loyh6NUNe6VL3ir4Ycm
+SY3ocOns20dzr5tT/MMEczeipmzW+cUU1A6OJfHrCGmSMIObaFUlzZ3+3wU44efF
+MOh2bjkk0qGRXOAsKksL/Ys1L53NTu/A8Fk3xQ/tBCJKZx4ojpHXLvh1yQL8BuIo
+ilUSyW4HAB841OQvPyxRr60ahUTWe5VyN2oVVpEvvBsX6/uP87iBm4/CWZj5lfle
+SxomXC47BuKltV+w/0ZXkt3fqbTSp5v+er7lY8B2klTUnvtlAcWd
+=34ND
+-----END PGP SIGNATURE-----

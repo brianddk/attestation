@@ -1,0 +1,19 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+880b61c6c0a4b8d26baf2698bc6163bb6c3548c9f48028e4e58c3902bc07bf71  trezor-1.11.1.bin
+880b61c6c0a4b8d26baf2698bc6163bb6c3548c9f48028e4e58c3902bc07bf71  repo/build/legacy/firmware/firmware.bin
+
+e1cfcf53ef9bcc88bf1b8b378e793c0eda1f8cb7dc4153fed4aa54e0880e536a  trezor-1.11.1-bitcoinonly.bin
+e1cfcf53ef9bcc88bf1b8b378e793c0eda1f8cb7dc4153fed4aa54e0880e536a  repo/build/legacy-bitcoinonly/firmware/firmware.bin
+-----BEGIN PGP SIGNATURE-----
+
+iQFEBAEBCAAuFiEEYoX6CPtntyvk2kGEg18EM6bVGGAFAmRuy2EQHGJyaWFuZGRr
+QHJlZGRpdAAKCRCDXwQzptUYYMCiB/9ZTFOqkACiCAL0JWr5vBPu4WKphzCBdoUm
++AXTyg/2tSCNBtYnO8b1KKiAF80MqHuAnwXzXins22A76Btvx/RPvrlvQ3h66gnw
+tHRCRd/eFT7SWxBaOJat90N/hDCFf0inC2QvK7vrX9JdsUtRpwi3MNKIBOez38p1
+qq3Xhz65yqI+COXpTMnHy0BydX9C1SV8MirjczSVaFoP0ysjyV12vieZWzUKnUwk
+RmL7z3V4fse/rFFeM7VLRZf0yL/T+XbSdVZRlgATBoh9ZstTmONX6zAvAoIc5Lb/
+5QMHrx1z1lWxHncBmrD/Sm7TWCCUWfjsrBDP7Cpfsiq2ULZjwVEC
+=8lwO
+-----END PGP SIGNATURE-----
