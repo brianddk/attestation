@@ -61,7 +61,7 @@ Validated from a mac user on a 'MacBook Air' running 'MacOS Ventura v 13.3.1'
 3. Verify Docker with Hello World - From a terminal window run `docker run hello-world` which should run without error
 4. All Macs come with a 10 year old version of bash. So we need to update bash from 3.2.57 to 4+ at a minimum - `brew install bash`.  As of 05/30/2023, the latest version of bash is 5.2.15. 
 5. Install GnuPG, git, wget & coreutils from Terminal - `brew install git gnupg wget coreutils`x
-6. You can first determine where `grealpath` is located by running `which -a grealpath`.  Once path is determined, create a soft link for 'realpath' to point to 'grealpath'.  Example: `ln -s /opt/homebrew/bin/grealpath /opt/homebrew/bin/realpath`.  Note: `grealpath` is installed from Step #4 coming GNU `coretuils`
+6. Create symbolic link for 'realpath' pointing to 'grealpath'.  On macOS, the version of `realpath` that comes preinstalled does not support the `--relative-to` option. This option is available in the GNU version of realpath, which is a part of GNU coreutils installed from Step #4. You can first determine where `grealpath` is located by running `which -a grealpath`.  Once path is determined, create a symbolic link in the same path location for 'realpath' pointing to 'grealpath'.  Example: `ln -s /opt/homebrew/bin/grealpath /opt/homebrew/bin/realpath`.
 7. Continue with step \#2 mentioned above in ***Trezor Attestation***
 
 ## Submitting Attestation
