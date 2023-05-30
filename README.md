@@ -54,12 +54,15 @@ This should be old-hat for most Linux users, but I'll outline the basics.  I'll 
 
 ## macOS Setup
 
-This is what I'm least familiar with.  I don't own Apple HW, and they forbid virtualization, so unless someone donates a old Mac, I'll just have to go off what ChatGPT tells me.
+Validated from a mac user on a 'MacBook Air' running 'MacOS Ventura v 13.3.1'
 
-1. [Install Docker](https://docs.docker.com/desktop/install/mac-install/) - I'd likely suggest the `.dmg` install method
-2. Verify Docker with Hello World - From a terminal window run `docker run hello-world` which should run without error
-3. Install GnuPG and GIT from Terminal - `brew install git gnupg` (so says ChatGPT)
-4. Continue with step \#2 mentioned above in ***Trezor Attestation***
+1. Install brew if not already installed -   `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+2. Install docker - `brew install --cask docker`, then start it - `$ open /Applications/Docker.app`
+3. Verify Docker with Hello World - From a terminal window run `docker run hello-world` which should run without error
+4. All Macs come with a 10 year old version of bash. So we need to update bash from 3.2.57 to 4+ at a minimum - `brew install bash`.  As of 05/30/2023, the latest version of bash is 5.2.15. 
+5. Install GnuPG, git, wget & coreutils from Terminal - `brew install git gnupg wget coreutils`x
+6. You can first determine where `grealpath` is located by running `which -a grealpath`.  Once path is determined, create a soft link for 'realpath' to point to 'grealpath'.  Example: `ln -s /opt/homebrew/bin/grealpath /opt/homebrew/bin/realpath`.  Note: `grealpath` is installed from Step #4 coming GNU `coretuils`
+7. Continue with step \#2 mentioned above in ***Trezor Attestation***
 
 ## Submitting Attestation
 
