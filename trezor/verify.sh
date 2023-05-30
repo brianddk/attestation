@@ -128,11 +128,11 @@ function verify () {
         for i in ${prd_files[$TAG]} ${bld_files[$TAG]}
         do
           # Let headertool.py pull out the important bits, then swap field order
-          bldr=$(grealpath --relative-to="${EXEC_PATH}" "${i}")
+          bldr=$(realpath --relative-to="${EXEC_PATH}" "${i}")
           2>/dev/null repo/core/tools/headertool.py -h $bldr | grep "^Finger" | sed "s#^Finger.*:#$bldr#g" | awk '{print $2 "  " $1}'
         done
       else # is_core=False   
-        sha256sum $(grealpath --relative-to=${EXEC_PATH} ${prd_files[$TAG]}) $(grealpath --relative-to=${EXEC_PATH} ${bld_files[$TAG]})
+        sha256sum $(realpath --relative-to=${EXEC_PATH} ${prd_files[$TAG]}) $(realpath --relative-to=${EXEC_PATH} ${bld_files[$TAG]})
       fi # is_core
     else # is_bootloader=False
       read PRD_NRML PRD_BO <<< "${prd_files[$TAG]}"
@@ -154,8 +154,8 @@ function verify () {
         dd if=/dev/zero of=${BINFILE} ${dd_zero_opts[$TAG]}
       done
 
-      sha256sum $(basename $PRD_NRML) $(grealpath --relative-to=$EXEC_PATH $BLD_NRML); echo ""
-      sha256sum $(basename $PRD_BO) $(grealpath --relative-to=$EXEC_PATH $BLD_BO)
+      sha256sum $(basename $PRD_NRML) $(realpath --relative-to=$EXEC_PATH $BLD_NRML); echo ""
+      sha256sum $(basename $PRD_BO) $(realpath --relative-to=$EXEC_PATH $BLD_BO)
     fi # is_bootloader
   ) | tee "${TEMPFILE}"
   < "${TEMPFILE}" ${GPG_BIN} --clear-sign -u "${GPG_KEY}" > "${FILE}.${GPG_KEY}"

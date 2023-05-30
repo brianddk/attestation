@@ -7,7 +7,7 @@
 # [req]     bash, grep, dirname, realpath
 
 EXEC_PATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
-REAL_PATH=$(grealpath --relative-to="$PWD" "${EXEC_PATH}")
+REAL_PATH=$(realpath --relative-to="$PWD" "${EXEC_PATH}")
 if [[ -z "${REAL_PATH}" ]]; then
   REAL_PATH=.
 fi
