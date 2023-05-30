@@ -2,3 +2,6 @@ trezor/repo
 trezor/.venv
 trezor/trezor-*
 bk
+.idea
+*.iml
+*.xml
