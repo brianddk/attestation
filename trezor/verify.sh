@@ -27,10 +27,11 @@ CANARY="core/bl2.1.0 core/v2.6.0 legacy/bl1.12.1 legacy/v1.12.1"
 PREVIOUS="core/v2.5.3 legacy/v1.11.2"
 CANARY_URL="https://trezor.io/transparency/canary.txt"
 REPOSITORY="https://github.com/trezor/trezor-firmware.git"
-GPG_BIN=${GPG_BIN:-gpg}
 TEMPFILE="$(mktemp)"
+
 EXEC_PATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
 source "${EXEC_PATH}/settings.sh"
+GPG_BIN=${GPG_BIN:-"$_gpg"}
 
 # Helper function to compare version strings
 function version_a_lt_b () {
@@ -139,11 +140,11 @@ function verify () {
         for i in ${prd_files[$TAG]} ${bld_files[$TAG]}
         do
           # Let headertool.py pull out the important bits, then swap field order
-          bldr=$(realpath --relative-to="${EXEC_PATH}" "${i}")
+          bldr=$($_realpath --relative-to="${EXEC_PATH}" "${i}")
           2>/dev/null repo/core/tools/headertool.py -h $bldr | grep "^Finger" | sed "s#^Finger.*:#$bldr#g" | awk '{print $2 "  " $1}'
         done
       else # is_core=False   
-        sha256sum $(realpath --relative-to=${EXEC_PATH} ${prd_files[$TAG]}) $(realpath --relative-to=${EXEC_PATH} ${bld_files[$TAG]})
+        $_sha256sum $($_realpath --relative-to=${EXEC_PATH} ${prd_files[$TAG]}) $($_realpath --relative-to=${EXEC_PATH} ${bld_files[$TAG]})
       fi # is_core
     else # is_bootloader=False
       read PRD_NRML PRD_BO <<< "${prd_files[$TAG]}"
@@ -165,10 +166,10 @@ function verify () {
         dd if=/dev/zero of=${BINFILE} ${dd_zero_opts[$TAG]}
       done
 
-      sha256sum $(basename $PRD_NRML) $(realpath --relative-to=$EXEC_PATH $BLD_NRML); 
+      $_sha256sum $(basename $PRD_NRML) $($_realpath --relative-to=$EXEC_PATH $BLD_NRML); 
       if [[ ! -z $PRD_BO && ! -z $BLD_BO ]]; then
         echo ""
-      sha256sum $(basename $PRD_BO) $(realpath --relative-to=$EXEC_PATH $BLD_BO)
+      $_sha256sum $(basename $PRD_BO) $($_realpath --relative-to=$EXEC_PATH $BLD_BO)
       fi
     fi # is_bootloader
   ) | tee "${TEMPFILE}"
