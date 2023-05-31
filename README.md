@@ -54,12 +54,63 @@ This should be old-hat for most Linux users, but I'll outline the basics.  I'll 
 
 ## macOS Setup
 
-This is what I'm least familiar with.  I don't own Apple HW, and they forbid virtualization, so unless someone donates a old Mac, I'll just have to go off what ChatGPT tells me.
+Validated on a 'MacBook Air' running 'MacOS Ventura v 13.3.1'
 
-1. [Install Docker](https://docs.docker.com/desktop/install/mac-install/) - I'd likely suggest the `.dmg` install method
-2. Verify Docker with Hello World - From a terminal window run `docker run hello-world` which should run without error
-3. Install GnuPG and GIT from Terminal - `brew install git gnupg` (so says ChatGPT)
-4. Continue with step \#2 mentioned above in ***Trezor Attestation***
+1. **Install Brew:** (if not already installed)
+  ```
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  ```
+2. **Install Docker:**
+  ```
+  # Install Docker
+  $ brew install --cask docker
+  
+  # Start the Docker daemon
+  $ open /Applications/Docker.app
+  ```
+3. **Verify Docker:** with 'Hello World'
+  ```
+  # should run without error
+  $ docker run hello-world
+  ```
+4. **Update Bash Version:**  MacOS ships with bash 3.2.57 due to licensing restrictions. The script relies on some features available in bash 4+ (like the 'declare -A' command used in 'setting.sh' to declare associative arrays, which isn't supported in bash 3.2). This [guide](https://itnext.io/upgrading-bash-on-macos-7138bd1066ba) was used to upgrade to 5+.
+  ```
+  # Install bash using brew
+  $ brew install bash
+  
+  # Verify bash is installed
+  $ which -a bash
+  /opt/homebrew/bin/bash
+  /bin/bash
+  ```
+5. **Install GnuPG, git, wget & coreutils from Terminal** 
+  ```
+  $ brew install git gnupg wget coreutils
+  ```
+6. **Create symbolic link for 'realpath' -> 'grealpath'**.  The preinstalled `realpath` version on MacOS does not support the `--relative-to` option, which is available in the GNU version of `realpath`, included in GNU coreutils (from Step 5). Example:
+  ```
+  $ ln -s /opt/homebrew/bin/grealpath /opt/homebrew/bin/realpath
+  ```
+7. **CD to the proper directory** (ie Trezor)
+```
+$ cd ./attestation/trezor
+```
+8. **Attest build** 
+```
+  # Make sure bash version is good
+
+$ bash -version
+
+  # Each script in this repo contains the header #!/bin/bash which is likely pointing to v 3.2.57 
+  # and is the wrong version, so either modify this header to #!/opt/homebrew/bin/bash or include 
+  # 'bash' on the command line to pick up 4+ at a minumum.
+
+$ bash ./verify.sh --gpg-key YOUR_GPG_UID core/v2.6.0
+
+  # In case of errors, '-v' turns on 'verbose mode.
+
+$ /opt/homebrew/bin/bash -v ./verify.sh --gpg-key YOUR_GPG_UID core/v2.6.0
+```
 
 ## Submitting Attestation
 

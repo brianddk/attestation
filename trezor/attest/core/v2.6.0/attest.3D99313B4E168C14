@@ -1,0 +1,30 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+Intended Build Version:  core/v2.6.0
+build-docker.sh Version: core/v2.6.0
+Build Command:           build-docker.sh --skip-legacy core/v2.6.0
+Bootloader Build?:       0
+DD Zero Sig Options:     bs=1 seek=5567 count=65 conv=notrunc status=none
+
+c33e336869964cfb1ef193195894e8b6667955b4ea3044558c380b1787168e38  trezor-2.6.0.bin
+d8650a84f119ac1cde2bf7f07471aa8f75cabad90e8e8a99707e9d8fcdf40028  repo/build/core/firmware/firmware.bin
+
+c0b7696ce45ac9fe593eb9af1eb561f66cdf8be4d6a6bea6e538e252843e8a2f  trezor-2.6.0-bitcoinonly.bin
+17619deda90e1bf9e3170b15b82c67acd2f1b5e3ebd969199372ed34e2dfbe9f  repo/build/core-bitcoinonly/firmware/firmware.bin
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE/3cR12JCzxw9AnQEPZkxO04WjBQFAmR2VZwACgkQPZkxO04W
+jBQdzg/+MVSAHq9DlkzNNSq4EkIpdCJkzUpcPZwEXJaIU6OnBtgph9jcZaRRrIjk
+PyDDj1ocrN6k7JoNfcJoCSRvn+L/dOZuyIg59wAhjn7HvyTW3Mqhnq3SHulPddww
+09DxZL9Ckm0eS3PS2W0oNi0Nz8CBuOZorb0MKSRAWKphsCF0u7tPPypA854Fthn2
+AJcfEBKp0vUDerVw9k3bupXFsZ2xLRRIv/F+/Z1/7YeY9vQ8G2t4frU7EKjcucl/
+p5hQl006rwp54zvU0rDAznuFvUWOSYeyh9Fob4Sfmqgc0pmUzPL0WQGjs7LU4al1
+EI9w2+HVE/ROm+peBfNOK69KGtg3EMD1KlC92v10fjM7lnKAZXH45jR8N0+qgOlp
+pwfKPqp0n863IPq+P8BJiBQbfUOVTLRcZjhnHYBTP6ZBxvcqlq1Hwj1+X9G/VQsM
+l/yyawDHtk+9jep+8bJ0p+CIqYgIY9Vg7s0rP3mZQZ/jJ/Ki4Sx5SK08UCs013+R
+WKQ9e8D1IelzFbZ/jlsMPzPwQE93zjUMOfpDhwS3syIg+7lGir8iSu5N+64czJSA
+WG5HZbDNqKAndQYaMtB6cV1Mq0O82gINykG03rrt4zMGYrDrzmV98b7S3Gz4/eWw
+rIR9UCBcaCxbOO/qdqYofYoT2rb8PP8RJul5HT2Um7TtXnO237E=
+=cTiF
+-----END PGP SIGNATURE-----
