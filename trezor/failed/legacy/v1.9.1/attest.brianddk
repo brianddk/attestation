@@ -1,0 +1,27 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+verify.sh Version:       0.2
+Intended Build Version:  legacy/v1.9.1
+build-docker.sh Version: legacy/v1.9.1
+Build Command:           build-docker.sh  legacy/v1.9.1
+Bootloader Build?:       0
+DD Zero Sig Options:     bs=1 seek=544 count=195 conv=notrunc status=none
+Relevant Build Notes:    https://github.com/hathach/stm32lib.git is no longer available
+
+395c23eebea5ac3bd63b6c0bd353f6a7fa3b3b86794dd8d8b0065fd91ed5fbe1  trezor-1.9.1.bin
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  repo/build/legacy/firmware/firmware.bin
+
+8763a389cbb67c6e36dfb1fe8a09694fb15f1fa3dbe050d29bf9f2c754c9db38  trezor-1.9.1-bitcoinonly.bin
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  repo/build/legacy-bitcoinonly/firmware/firmware.bin
+-----BEGIN PGP SIGNATURE-----
+
+iQFEBAEBCAAuFiEEYoX6CPtntyvk2kGEg18EM6bVGGAFAmRyrSMQHGJyaWFuZGRr
+QHJlZGRpdAAKCRCDXwQzptUYYGRTB/0UC+9SFoZCHbpmekKgNYRlV0lBelNKJsK2
+dct6X/+g21OZOtNa0rGWLmCFsmym8aVIjPnraZc/ytHgHmhvdKR68kj5IuTk0Gan
+V19wZ98FyrCOiKQ26yDDB5rFNTGHMxpt5GCmYUs3dXnGftmDo22LyonLOZBSS07l
+0QsXNE788gjQfDWosH2+FI17hJlYhY522m7mQdPyJuDBOo2vtTH8Ju35uOzJ98lg
+fwdlx0QF3D2SVlh3BvX6/eURsztTwINceTbiUWHd1DLc2NM93DHo/4xxmXti8jP5
+xtXP5WzELLsk2G4vgIwvl71etrXOGGCM210jk6M/jrc5cJC1MjSl
+=uSiZ
+-----END PGP SIGNATURE-----

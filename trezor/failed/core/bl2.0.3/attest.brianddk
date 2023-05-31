@@ -1,0 +1,25 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+verify.sh Version:       0.2
+Intended Build Version:  core/bl2.0.3
+build-docker.sh Version: core/bl2.0.3
+Build Command:           build-docker.sh  bl2.0.3
+Bootloader Build?:       1
+Source Binary tag:       core/bl2.0.3
+Relevant Build Notes:    https://github.com/trezor/trezor-firmware/issues/2189
+			   Also note that the Dockerfile relies on Debian
+			   'stretch' which is EOL and can't build due to apt
+			   dependencies
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFEBAEBCAAuFiEEYoX6CPtntyvk2kGEg18EM6bVGGAFAmRyR+YQHGJyaWFuZGRr
+QHJlZGRpdAAKCRCDXwQzptUYYP6tB/47ygeIGWK5XXxkQauvLIAVt4hNOjPb2cil
+TfzsWNO+a8nkLZy/yUh57As3W1NUPFfCEMQ2G9K7t9r46mkdK470djGibrZIRM5g
+uztI3iUjewdSYKwTzLtTarCHWtN1qhuegFu/Kye4nJG3JLK0dY31cQrGBvnABnIW
+jhrMNkcjKn456Vz5gq0OMyj1TU0K0FPdtDmH+QHkH/RK8+j8+XEiURzXkTDiDyUy
+s2IfKMXlO4B9sGKMeQ6W/SAxfRH+CDcjY5mxekc7w+Q+0u16zfmIAZ91sEGY5kgP
+M4wVIhsdW410L6ANMvJn1DaUDTC4eTSoMoNePLim1AcQsprYOtEA
+=lx1G
+-----END PGP SIGNATURE-----

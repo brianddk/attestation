@@ -1,0 +1,26 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+verify.sh Version:       0.2
+Intended Build Version:  legacy/v1.9.4
+build-docker.sh Version: legacy/v1.9.4
+Build Command:           build-docker.sh  legacy/v1.9.4
+Bootloader Build?:       0
+DD Zero Sig Options:     bs=1 seek=544 count=195 conv=notrunc status=none
+
+ea3403f99093b5fc71907d2ded6af01bf66a67a881862629d96947550bdf711e  trezor-1.9.4.bin
+ea3403f99093b5fc71907d2ded6af01bf66a67a881862629d96947550bdf711e  repo/build/legacy/firmware/firmware.bin
+
+c0544d50228ce527042ea3db6b1752be85dacb9d77626e1adfea1f7617754153  trezor-1.9.4-bitcoinonly.bin
+c0544d50228ce527042ea3db6b1752be85dacb9d77626e1adfea1f7617754153  repo/build/legacy-bitcoinonly/firmware/firmware.bin
+-----BEGIN PGP SIGNATURE-----
+
+iQFEBAEBCAAuFiEEYoX6CPtntyvk2kGEg18EM6bVGGAFAmRy1dMQHGJyaWFuZGRr
+QHJlZGRpdAAKCRCDXwQzptUYYCR+CACJfzz/cGStJ/+uEiWkDeeAU9q7gWqnU36q
+x8zgAw2QLHi20i/BQsGpGpMF7XLBFssyOxMRlWWtctGHnXlFZ9DYQIt90uVkSyVk
+HzDtA39wBMvzuPnJkrcDD5D236n8Gc7gaUInvd0g0lGMpDMzII5W7J/0X2ecMecx
+0E9+JnGPp07hFw6rU6gr36FnjW5HXsFjTfOEAg8U8IwGOuirzGf2vJ7ruL2ZNNCI
+IDr1KfkmxBsz5HkdfGRcX/c18cx4TXLmZh+wCtUOVNy9xycMtp1i+EMnXnstVMI+
+hDE6ta+ROPJ8k5Rgcr0R+UPBL4ruunBT8Hgj69xwU9VktRVacx2a
+=6wJ1
+-----END PGP SIGNATURE-----

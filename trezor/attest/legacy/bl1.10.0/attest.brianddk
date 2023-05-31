@@ -1,0 +1,23 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+verify.sh Version:       0.2
+Intended Build Version:  legacy/bl1.10.0
+build-docker.sh Version: legacy/v1.10.0
+Build Command:           build-docker.sh  legacy/v1.10.0
+Bootloader Build?:       1
+Source Binary tag:       legacy/v1.10.0
+
+8db5ab6ee8cdf047b4eaa7bb0ef5c43e7e905b99e99b2a9af71f3ca2f57dc63b  repo/legacy/firmware/bootloader.dat
+8db5ab6ee8cdf047b4eaa7bb0ef5c43e7e905b99e99b2a9af71f3ca2f57dc63b  repo/build/legacy/bootloader/bootloader.bin
+-----BEGIN PGP SIGNATURE-----
+
+iQFEBAEBCAAuFiEEYoX6CPtntyvk2kGEg18EM6bVGGAFAmRydMAQHGJyaWFuZGRr
+QHJlZGRpdAAKCRCDXwQzptUYYHAJB/92zZUW0abNZgEkYSCzR2fcNe/bs0c9zXMO
+M2/aTXpAFxhRYJEzyLh6VXW0F8KaQnUOYU3IrXvgB9/3fEYeFpHXGudCoq0+xYdE
+7F9qVAxC0kk2/qIvNPG7H1CE/PJOwB0ygkxLijPGoH9HFkjbBHYtbJ/Rh0K8QKHn
+NKPum761udRrj73OaFvO1ghutczQN4X5cnapnbx0vgqLtzRKDvE/lSro18dzIMO3
+7OkRCNSgpbi6EyRVkS2rPHbbaQnXDIlt8oU9v2MJBTiRKxJpykm080IV5gYis1xj
+WxpExnx+1dT3ckBz0O1m+YiKV/QcT1pR7z9XkpxSM3PssIi7zPJ3
+=2g6l
+-----END PGP SIGNATURE-----

@@ -1,0 +1,24 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+verify.sh Version:       0.2
+Intended Build Version:  legacy/v1.8.1
+build-docker.sh Version: legacy/v1.8.1
+Build Command:           build-docker.sh legacy/v1.8.1 legacy/v1.8.1
+Bootloader Build?:       0
+DD Zero Sig Options:     bs=1 seek=544 count=195 conv=notrunc status=none
+Relevant Build Notes:    Submodule repos are no longer valid in the clone command
+
+6bdd63362460c8776d804d24b5430882a489fe42cbe40f0eefbd724daf081c34  trezor-1.8.1.bin
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  repo/build/firmware/firmware.bin
+-----BEGIN PGP SIGNATURE-----
+
+iQFEBAEBCAAuFiEEYoX6CPtntyvk2kGEg18EM6bVGGAFAmRylgcQHGJyaWFuZGRr
+QHJlZGRpdAAKCRCDXwQzptUYYJetB/sGSokvZw6PVLAGQbvz5TMHCzcig49DFYSL
+lWXljZobG465UnE5r75yq/oi5J6a15lJJq1aUhviDmnAslj4gaWiks3P3RaImmJV
+IQNRE21O5qV5mPDFsXX3w3mw/VEjhRW2IS1gRMdqvAT9OcrUUtGqa0sr0iZRs3M5
+x7skuAQUT/y8tKK4xu3cHhx2rv7H4s3kF82K1XcHFfSwgF9SWR2nVKy7TWpub5qA
+ot/9X7tgZICAmtc7qIqS1zezv8y7G9X6BH2kxvn8Vb4kdPFGOGKvZktExa8qL8Lc
+wehBljoexUCmoiwXqlCC1SdRnv+xA60A23pvOPO1UVr8w4LWZ/TK
+=EBBx
+-----END PGP SIGNATURE-----
