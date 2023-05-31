@@ -50,7 +50,6 @@ for i in $_realpath wget awk docker git wget dd tail dirname basename find $_gpg
   >/dev/null command -v $i || echo "Ensure $i is installed" || exit 3
 done
 
-EXEC_PATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
 REAL_PATH=$($_realpath --relative-to="$PWD" "${EXEC_PATH}")
 if [[ -z "${REAL_PATH}" ]]; then
   REAL_PATH=.
