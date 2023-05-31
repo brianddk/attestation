@@ -31,23 +31,23 @@ elif [[ ! -z $WSL_DISTRO_NAME ]]; then
 fi
 # Now it is assumed that we are at BASH v4.0 or higher
 
-if command -v sha256sum; then
+if >/dev/null command -v sha256sum; then
   _sha256sum="sha256sum"
-elif command -v shasum
+elif >/dev/null command -v shasum; then
   _sha256sum="shasum -a 256"
 else
   echo "sha256sum or shasum required for this script"
   exit 2
 fi
 
-if command -v gpg2; then
+if >/dev/null command -v gpg2; then
   _gpg="gpg2"
 else
   _gpg="gpg"
 fi
 
 for i in $_realpath wget awk docker git wget dd tail dirname basename find $_gpg; do
-  command -v $i || echo "Ensure $i is installed" || exit 3
+  >/dev/null command -v $i || echo "Ensure $i is installed" || exit 3
 done
 
 EXEC_PATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))

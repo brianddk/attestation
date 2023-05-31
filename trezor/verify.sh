@@ -18,7 +18,7 @@
 # [linux]   trezor/verify.sh --gpg-key YOUR_UID --latest-rel
 # [macOS]   trezor/verify.sh --gpg-key YOUR_UID --canary-rel
 
-VERSION=0.1
+VERSION=0.2
 LATEST="core/bl2.1.0 core/v2.6.0 legacy/bl1.12.1 legacy/v1.12.1"
 CANARY="core/bl2.1.0 core/v2.6.0 legacy/bl1.12.1 legacy/v1.12.1"
 # bl2.0.3 is SO old it will require some archeology to build.
@@ -51,6 +51,7 @@ function version_a_lt_b () {
 function verify () {
   TAG=$1
   FILE="attest/${TAG}/attest"
+  BUILD_DOCKER=${dock_bld_sh[$TAG]:-"build-docker.sh"}
   
   # Make VENV for headertool.py
   if [ -d .venv ]; then
@@ -94,17 +95,23 @@ function verify () {
   # Make directories and repos as needed
   mkdir -p "attest/$TAG"
   if [ ! -d repo ]; then
-    git clone "${REPOSITORY}" repo
-  fi
-
+    git clone -b $TAG "${REPOSITORY}" repo || exit 5
+    1> /dev/null pushd repo
+  else
   # Using explicit paths in GIT due to WSL weirdness
   1> /dev/null pushd repo
   git restore "$PWD" || exit 1
+    git checkout "${dock_bld_ver[$TAG]}" --force || exit 3
   git clean --force || exit 2
-  git checkout "${dock_bld_ver[$TAG]}" || exit 3
-  echo bash build-docker.sh ${bld_opt[$TAG]} "${ctnr_src_ver[$TAG]}"
+  fi
+
+  for i in ${bld_files[$TAG]}; do
+    mkdir -p "$(dirname $i)"
+    touch "$i"
+  done
+  echo bash $BUILD_DOCKER ${bld_opt[$TAG]} "${ctnr_src_ver[$TAG]}"
   # read
-  bash build-docker.sh ${bld_opt[$TAG]} "${ctnr_src_ver[$TAG]}"
+  bash $BUILD_DOCKER ${bld_opt[$TAG]} "${ctnr_src_ver[$TAG]}"
   if [ $IS_BLDR -eq 1 ]; then
     cd $(dirname "${prd_files[$TAG]}")
     git restore -s "${prd_bin_ver[$TAG]}" -- $(basename "${prd_files[$TAG]}") || exit 3
@@ -113,6 +120,7 @@ function verify () {
 
   # Do checksum'ing in one block to catch and log
   (
+    echo "verify.sh Version:       $VERSION"
     echo "Intended Build Version:  $TAG"
     echo "build-docker.sh Version: ${dock_bld_ver[$TAG]}"
     echo "Build Command:           build-docker.sh ${bld_opt[$TAG]} ${ctnr_src_ver[$TAG]}"
@@ -121,6 +129,9 @@ function verify () {
       echo "Source Binary tag:       ${prd_bin_ver[$TAG]}"
     else
       echo "DD Zero Sig Options:     ${dd_zero_opts[$TAG]}"      
+    fi
+    if [[ ! -z ${note[$TAG]} ]]; then
+      echo -e "Relevant Build Notes:    ${note[$TAG]}"
     fi
     echo ""
     if [ $IS_BLDR -eq 1 ]; then # is_bootloader=True
@@ -154,8 +165,11 @@ function verify () {
         dd if=/dev/zero of=${BINFILE} ${dd_zero_opts[$TAG]}
       done
 
-      sha256sum $(basename $PRD_NRML) $(realpath --relative-to=$EXEC_PATH $BLD_NRML); echo ""
+      sha256sum $(basename $PRD_NRML) $(realpath --relative-to=$EXEC_PATH $BLD_NRML); 
+      if [[ ! -z $PRD_BO && ! -z $BLD_BO ]]; then
+        echo ""
       sha256sum $(basename $PRD_BO) $(realpath --relative-to=$EXEC_PATH $BLD_BO)
+      fi
     fi # is_bootloader
   ) | tee "${TEMPFILE}"
   < "${TEMPFILE}" ${GPG_BIN} --clear-sign -u "${GPG_KEY}" > "${FILE}.${GPG_KEY}"
@@ -253,13 +267,16 @@ function main () {
 
   # attest based on tags
   for i in $TAGS; do
-    if [ ! ${is_hash_eq[$i]} -eq 1 ]; then
+    if [[ -z ${is_hash_eq[$i]} ]]; then
+      echo "Bad TAG: [$i]"
+      exit 1
+    elif [ ! ${is_hash_eq[$i]} -eq 1 ]; then
       echo "Build of '$i' is UNTESTED, proceed with caution"
       echo "PRESS ANY KEY to continue"
       read
     fi
     verify "$i"
-  done
+  done # do $TAGS
 
   # collect garbage
   rm "${TEMPFILE}"

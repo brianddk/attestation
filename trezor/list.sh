@@ -6,10 +6,7 @@
 # [req]     bash, dirname, realpath, basename, find
 
 EXEC_PATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
-REAL_PATH=$(realpath --relative-to="$PWD" "${EXEC_PATH}")
-if [[ -z "${REAL_PATH}" ]]; then
-  REAL_PATH=.
-fi
+source "${EXEC_PATH}/settings.sh"
 
 echo "SUCCEEDED"
 for i in $(find "${REAL_PATH}/attest" -name "attest.*")

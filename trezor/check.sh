@@ -7,10 +7,7 @@
 # [req]     bash, grep, dirname, realpath
 
 EXEC_PATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
-REAL_PATH=$(realpath --relative-to="$PWD" "${EXEC_PATH}")
-if [[ -z "${REAL_PATH}" ]]; then
-  REAL_PATH=.
-fi
+source "${EXEC_PATH}/settings.sh"
 
 TARG_PATH=${1:-$REAL_PATH/attest}
 DUMP=${2:-""}
@@ -33,4 +30,4 @@ function main() {
   done <<< $(grep -r " repo/\| trezor-" "${TARG_PATH}")
 }
 
-main $* | sort -r --version-sort
+main $@
