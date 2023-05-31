@@ -9,6 +9,53 @@
 # [note]      as a global settings data structure to do all the builds that
 # [note]      have source tags in Trezor's github
 
+
+# This test script requires BASH 2.0 or later 
+_bash_major_version=${BASH_VERSION::1}
+_ostype="Linux"
+_realpath="realpath"
+
+# Must run BASH 4.0 or greater for associative arrays
+if [ $_bash_major_version -lt 4 ]; then
+  echo "ERROR: Need Bash version 4 or greater.  Found version ${BASH_VERSION}"
+  exit 1
+
+# Darwin's realpath doesn't support --relative-to, need grealpath
+elif [[ "$(uname -s)" == "Darwin" ]]; then
+  _ostype="Darwin"
+  _realpath="grealpath"
+  
+# Test if we are in WSL, for completeness
+elif [[ ! -z $WSL_DISTRO_NAME ]]; then
+  _ostype="Windows"    
+fi
+# Now it is assumed that we are at BASH v4.0 or higher
+
+if command -v sha256sum; then
+  _sha256sum="sha256sum"
+elif command -v shasum
+  _sha256sum="shasum -a 256"
+else
+  echo "sha256sum or shasum required for this script"
+  exit 2
+fi
+
+if command -v gpg2; then
+  _gpg="gpg2"
+else
+  _gpg="gpg"
+fi
+
+for i in $_realpath wget awk docker git wget dd tail dirname basename find $_gpg; do
+  command -v $i || echo "Ensure $i is installed" || exit 3
+done
+
+EXEC_PATH=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
+REAL_PATH=$($_realpath --relative-to="$PWD" "${EXEC_PATH}")
+if [[ -z "${REAL_PATH}" ]]; then
+  REAL_PATH=.
+fi
+
 # The required version for build-docker.sh and Dockerfile
 declare -A dock_bld_ver
 # The required tag argument to the build-docker.sh script
@@ -25,6 +72,10 @@ declare -A    bld_files
 declare -A dd_zero_opts
 # Whether or not this tag has passed reproducible build test
 declare -A   is_hash_eq
+# Any notes that should be included in the attestation
+declare -A         note
+# Older builds have a different build-docker.sh location
+declare -A  dock_bld_sh
 
 dock_bld_ver["core/v2.6.0"]="core/v2.6.0"
 ctnr_src_ver["core/v2.6.0"]="core/v2.6.0"
@@ -92,7 +143,7 @@ dd_zero_opts["core/v2.4.0"]="bs=1 seek=5567 count=65 conv=notrunc status=none"
 
 dock_bld_ver["core/v2.3.6"]="core/v2.3.6"
 ctnr_src_ver["core/v2.3.6"]="core/v2.3.6"
-     bld_opt["core/v2.3.6"]="--skip-legacy"
+     bld_opt["core/v2.3.6"]=""
    prd_files["core/v2.3.6"]="2/trezor-2.3.6.bin 2/trezor-2.3.6-bitcoinonly.bin"
    bld_files["core/v2.3.6"]="${EXEC_PATH}/repo/build/core/firmware/firmware.bin ${EXEC_PATH}/repo/build/core-bitcoinonly/firmware/firmware.bin"
 dd_zero_opts["core/v2.3.6"]="bs=1 seek=5567 count=65 conv=notrunc status=none"
@@ -100,7 +151,7 @@ dd_zero_opts["core/v2.3.6"]="bs=1 seek=5567 count=65 conv=notrunc status=none"
 
 dock_bld_ver["core/v2.3.5"]="core/v2.3.5"
 ctnr_src_ver["core/v2.3.5"]="core/v2.3.5"
-     bld_opt["core/v2.3.5"]="--skip-legacy"
+     bld_opt["core/v2.3.5"]=""
    prd_files["core/v2.3.5"]="2/trezor-2.3.5.bin 2/trezor-2.3.5-bitcoinonly.bin"
    bld_files["core/v2.3.5"]="${EXEC_PATH}/repo/build/core/firmware/firmware.bin ${EXEC_PATH}/repo/build/core-bitcoinonly/firmware/firmware.bin"
 dd_zero_opts["core/v2.3.5"]="bs=1 seek=5567 count=65 conv=notrunc status=none"
@@ -108,11 +159,12 @@ dd_zero_opts["core/v2.3.5"]="bs=1 seek=5567 count=65 conv=notrunc status=none"
 
 dock_bld_ver["core/v2.3.4"]="core/v2.3.4"
 ctnr_src_ver["core/v2.3.4"]="core/v2.3.4"
-     bld_opt["core/v2.3.4"]="--skip-legacy"
+     bld_opt["core/v2.3.4"]=""
    prd_files["core/v2.3.4"]="2/trezor-2.3.4.bin 2/trezor-2.3.4-bitcoinonly.bin"
    bld_files["core/v2.3.4"]="${EXEC_PATH}/repo/build/core/firmware/firmware.bin ${EXEC_PATH}/repo/build/core-bitcoinonly/firmware/firmware.bin"
 dd_zero_opts["core/v2.3.4"]="bs=1 seek=5567 count=65 conv=notrunc status=none"
   is_hash_eq["core/v2.3.4"]=0
+        note["legacy/v1.9.3"]="https://github.com/hathach/stm32lib.git is no longer available"
 
 dock_bld_ver["core/v2.3.3"]="core/v2.3.3"
 ctnr_src_ver["core/v2.3.3"]="core/v2.3.3"
@@ -132,11 +184,12 @@ dd_zero_opts["core/v2.3.2"]="bs=1 seek=5567 count=65 conv=notrunc status=none"
 
 dock_bld_ver["core/v2.3.1"]="core/v2.3.1"
 ctnr_src_ver["core/v2.3.1"]="core/v2.3.1"
-     bld_opt["core/v2.3.1"]="--skip-legacy"
+     bld_opt["core/v2.3.1"]=""
    prd_files["core/v2.3.1"]="2/trezor-2.3.1.bin 2/trezor-2.3.1-bitcoinonly.bin"
    bld_files["core/v2.3.1"]="${EXEC_PATH}/repo/build/core/firmware/firmware.bin ${EXEC_PATH}/repo/build/core-bitcoinonly/firmware/firmware.bin"
 dd_zero_opts["core/v2.3.1"]="bs=1 seek=5567 count=65 conv=notrunc status=none"
   is_hash_eq["core/v2.3.1"]=0
+        note["core/v2.3.1"]="https://github.com/hathach/stm32lib.git is no longer available"
 
 dock_bld_ver["core/v2.3.0"]="core/v2.3.0"
 ctnr_src_ver["core/v2.3.0"]="core/v2.3.0"
@@ -304,7 +357,7 @@ ctnr_src_ver["legacy/v1.11.1"]="legacy/v1.11.1"
    prd_files["legacy/v1.11.1"]="1/trezor-1.11.1.bin 1/trezor-1.11.1-bitcoinonly.bin"
    bld_files["legacy/v1.11.1"]="${EXEC_PATH}/repo/build/legacy/firmware/firmware.bin ${EXEC_PATH}/repo/build/legacy-bitcoinonly/firmware/firmware.bin"
 dd_zero_opts["legacy/v1.11.1"]="bs=1 seek=544 count=195 conv=notrunc status=none"
-  is_hash_eq["legacy/v1.11.1"]=0
+  is_hash_eq["legacy/v1.11.1"]=1
 
 dock_bld_ver["legacy/v1.10.5"]="legacy/v1.10.5"
 ctnr_src_ver["legacy/v1.10.5"]="legacy/v1.10.5"
@@ -348,7 +401,7 @@ dd_zero_opts["legacy/v1.10.1"]="bs=1 seek=544 count=195 conv=notrunc status=none
 
 dock_bld_ver["legacy/v1.10.0"]="legacy/v1.10.0"
 ctnr_src_ver["legacy/v1.10.0"]="legacy/v1.10.0"
-     bld_opt["legacy/v1.10.0"]="--skip-core"
+     bld_opt["legacy/v1.10.0"]=""
    prd_files["legacy/v1.10.0"]="1/trezor-1.10.0.bin 1/trezor-1.10.0-bitcoinonly.bin"
    bld_files["legacy/v1.10.0"]="${EXEC_PATH}/repo/build/legacy/firmware/firmware.bin ${EXEC_PATH}/repo/build/legacy-bitcoinonly/firmware/firmware.bin"
 dd_zero_opts["legacy/v1.10.0"]="bs=1 seek=544 count=195 conv=notrunc status=none"
@@ -356,7 +409,7 @@ dd_zero_opts["legacy/v1.10.0"]="bs=1 seek=544 count=195 conv=notrunc status=none
 
 dock_bld_ver["legacy/v1.9.4"]="legacy/v1.9.4"
 ctnr_src_ver["legacy/v1.9.4"]="legacy/v1.9.4"
-     bld_opt["legacy/v1.9.4"]="--skip-core"
+     bld_opt["legacy/v1.9.4"]=""
    prd_files["legacy/v1.9.4"]="1/trezor-1.9.4.bin 1/trezor-1.9.4-bitcoinonly.bin"
    bld_files["legacy/v1.9.4"]="${EXEC_PATH}/repo/build/legacy/firmware/firmware.bin ${EXEC_PATH}/repo/build/legacy-bitcoinonly/firmware/firmware.bin"
 dd_zero_opts["legacy/v1.9.4"]="bs=1 seek=544 count=195 conv=notrunc status=none"
@@ -364,15 +417,16 @@ dd_zero_opts["legacy/v1.9.4"]="bs=1 seek=544 count=195 conv=notrunc status=none"
 
 dock_bld_ver["legacy/v1.9.3"]="legacy/v1.9.3"
 ctnr_src_ver["legacy/v1.9.3"]="legacy/v1.9.3"
-     bld_opt["legacy/v1.9.3"]="--skip-core"
+     bld_opt["legacy/v1.9.3"]=""
    prd_files["legacy/v1.9.3"]="1/trezor-1.9.3.bin 1/trezor-1.9.3-bitcoinonly.bin"
    bld_files["legacy/v1.9.3"]="${EXEC_PATH}/repo/build/legacy/firmware/firmware.bin ${EXEC_PATH}/repo/build/legacy-bitcoinonly/firmware/firmware.bin"
 dd_zero_opts["legacy/v1.9.3"]="bs=1 seek=544 count=195 conv=notrunc status=none"
   is_hash_eq["legacy/v1.9.3"]=0
+        note["legacy/v1.9.3"]="https://github.com/hathach/stm32lib.git is no longer available"
 
 dock_bld_ver["legacy/v1.9.2"]="legacy/v1.9.2"
 ctnr_src_ver["legacy/v1.9.2"]="legacy/v1.9.2"
-     bld_opt["legacy/v1.9.2"]="--skip-core"
+     bld_opt["legacy/v1.9.2"]=""
    prd_files["legacy/v1.9.2"]="1/trezor-1.9.2.bin 1/trezor-1.9.2-bitcoinonly.bin"
    bld_files["legacy/v1.9.2"]="${EXEC_PATH}/repo/build/legacy/firmware/firmware.bin ${EXEC_PATH}/repo/build/legacy-bitcoinonly/firmware/firmware.bin"
 dd_zero_opts["legacy/v1.9.2"]="bs=1 seek=544 count=195 conv=notrunc status=none"
@@ -380,11 +434,12 @@ dd_zero_opts["legacy/v1.9.2"]="bs=1 seek=544 count=195 conv=notrunc status=none"
 
 dock_bld_ver["legacy/v1.9.1"]="legacy/v1.9.1"
 ctnr_src_ver["legacy/v1.9.1"]="legacy/v1.9.1"
-     bld_opt["legacy/v1.9.1"]="--skip-core"
+     bld_opt["legacy/v1.9.1"]=""
    prd_files["legacy/v1.9.1"]="1/trezor-1.9.1.bin 1/trezor-1.9.1-bitcoinonly.bin"
    bld_files["legacy/v1.9.1"]="${EXEC_PATH}/repo/build/legacy/firmware/firmware.bin ${EXEC_PATH}/repo/build/legacy-bitcoinonly/firmware/firmware.bin"
 dd_zero_opts["legacy/v1.9.1"]="bs=1 seek=544 count=195 conv=notrunc status=none"
   is_hash_eq["legacy/v1.9.1"]=0
+        note["legacy/v1.9.1"]="https://github.com/hathach/stm32lib.git is no longer available"
 
 dock_bld_ver["legacy/v1.9.0"]="legacy/v1.9.0"
 ctnr_src_ver["legacy/v1.9.0"]="legacy/v1.9.0"
@@ -412,11 +467,13 @@ dd_zero_opts["legacy/v1.8.2"]="bs=1 seek=544 count=195 conv=notrunc status=none"
 
 dock_bld_ver["legacy/v1.8.1"]="legacy/v1.8.1"
 ctnr_src_ver["legacy/v1.8.1"]="legacy/v1.8.1"
-     bld_opt["legacy/v1.8.1"]="--skip-core"
-   prd_files["legacy/v1.8.1"]="1/trezor-1.8.1.bin 1/trezor-1.8.1-bitcoinonly.bin"
-   bld_files["legacy/v1.8.1"]="${EXEC_PATH}/repo/build/legacy/firmware/firmware.bin ${EXEC_PATH}/repo/build/legacy-bitcoinonly/firmware/firmware.bin"
+     bld_opt["legacy/v1.8.1"]="legacy/v1.8.1"
+   prd_files["legacy/v1.8.1"]="1/trezor-1.8.1.bin"
+   bld_files["legacy/v1.8.1"]="${EXEC_PATH}/repo/build/firmware/firmware.bin"
 dd_zero_opts["legacy/v1.8.1"]="bs=1 seek=544 count=195 conv=notrunc status=none"
   is_hash_eq["legacy/v1.8.1"]=0
+        note["legacy/v1.8.1"]="Submodule repos are no longer valid in the clone command"
+ dock_bld_sh["legacy/v1.8.1"]="legacy/build.sh"
 
 dock_bld_ver["legacy/v1.8.0"]="legacy/v1.8.0"
 ctnr_src_ver["legacy/v1.8.0"]="legacy/v1.8.0"
@@ -490,21 +547,23 @@ ctnr_src_ver["legacy/v1.6.0"]="legacy/v1.6.0"
 dd_zero_opts["legacy/v1.6.0"]="bs=1 seek=544 count=195 conv=notrunc status=none"
   is_hash_eq["legacy/v1.6.0"]=0
 
-dock_bld_ver["core/bl2.1.0"]="core/v2.6.0"
-ctnr_src_ver["core/bl2.1.0"]="core/bl2.1.0"
- prd_bin_ver["core/bl2.1.0"]="core/v2.6.0"
+dock_bld_ver["core/bl2.1.0"]="core/v2.6.0"   # c38b39ee6 also works
+ctnr_src_ver["core/bl2.1.0"]="core/bl2.1.0"  # c38b39ee6 also works
+ prd_bin_ver["core/bl2.1.0"]="core/v2.6.0"   # c38b39ee6 also works
      bld_opt["core/bl2.1.0"]="--skip-bitcoinonly --skip-legacy"
    prd_files["core/bl2.1.0"]="${EXEC_PATH}/repo/core/embed/firmware/bootloaders/bootloader_T2T1.bin"
    bld_files["core/bl2.1.0"]="${EXEC_PATH}/repo/build/core/bootloader/bootloader.bin"
   is_hash_eq["core/bl2.1.0"]=1
+        note["core/bl2.1.0"]="https://github.com/trezor/trezor-firmware/issues/2189#issuecomment-1562000335"
 
 dock_bld_ver["core/bl2.0.3"]="core/bl2.0.3"
-ctnr_src_ver["core/bl2.0.3"]="core/bl2.0.3"
+ctnr_src_ver["core/bl2.0.3"]="bl2.0.3"
  prd_bin_ver["core/bl2.0.3"]="core/bl2.0.3"
-     bld_opt["core/bl2.0.3"]="--skip-bitcoinonly --skip-legacy"
-   prd_files["core/bl2.0.3"]="${EXEC_PATH}/repo/core/embed/firmware/bootloaders/bootloader_T2T1.bin"
-   bld_files["core/bl2.0.3"]="${EXEC_PATH}/repo/build/core/bootloader/bootloader.bin"
+     bld_opt["core/bl2.0.3"]=""
+   prd_files["core/bl2.0.3"]="${EXEC_PATH}/repo/embed/firmware/bootloader.bin"
+   bld_files["core/bl2.0.3"]="${EXEC_PATH}/repo/build/bootloader/bootloader.bin"
   is_hash_eq["core/bl2.0.3"]=0
+        note["core/bl2.0.3"]="https://github.com/trezor/trezor-firmware/issues/2189\n\t\t\t   Also note that the Dockerfile relies on Debian\n\t\t\t   'stretch' which is EOL and can't build due to apt\n\t\t\t   dependencies"
 
 dock_bld_ver["core/bl2.0.2"]="core/bl2.0.2"
 ctnr_src_ver["core/bl2.0.2"]="core/bl2.0.2"
@@ -552,7 +611,15 @@ ctnr_src_ver["legacy/bl1.11.0"]="legacy/bl1.11.0"
      bld_opt["legacy/bl1.11.0"]="--skip-core --skip-bitcoinonly"
    prd_files["legacy/bl1.11.0"]="${EXEC_PATH}/repo/legacy/firmware/bootloader.dat"
    bld_files["legacy/bl1.11.0"]="${EXEC_PATH}/repo/build/legacy/bootloader/bootloader.bin"
-  is_hash_eq["legacy/bl1.11.0"]=0
+  is_hash_eq["legacy/bl1.11.0"]=1
+
+dock_bld_ver["legacy/bl1.10.0"]="legacy/v1.10.0"
+ctnr_src_ver["legacy/bl1.10.0"]="legacy/v1.10.0"
+ prd_bin_ver["legacy/bl1.10.0"]="legacy/v1.10.0"
+     bld_opt["legacy/bl1.10.0"]=""
+   prd_files["legacy/bl1.10.0"]="${EXEC_PATH}/repo/legacy/firmware/bootloader.dat"
+   bld_files["legacy/bl1.10.0"]="${EXEC_PATH}/repo/build/legacy/bootloader/bootloader.bin"
+  is_hash_eq["legacy/bl1.10.0"]=1
 
 dock_bld_ver["legacy/bl1.8.0"]="legacy/bl1.8.0"
 ctnr_src_ver["legacy/bl1.8.0"]="legacy/bl1.8.0"

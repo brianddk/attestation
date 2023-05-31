@@ -26,8 +26,6 @@ fairly straight forward.
 3. CD to the proper directory (ie Trezor): `cd ./attestation/trezor`
 4. Use your UID to attest a build: `./verify.sh --gpg-key YOUR_GPG_UID core/v2.6.0`
 
-All done!
-
 ## Windows Setup
 
 Most builds use Docker under Linux, which is fine if you have an updated Windows OS.
@@ -111,6 +109,16 @@ $ bash ./verify.sh --gpg-key YOUR_GPG_UID core/v2.6.0
 
 $ /opt/homebrew/bin/bash -v ./verify.sh --gpg-key YOUR_GPG_UID core/v2.6.0
 ```
+
+## Troubleshooting Attestation
+
+In the simplest since, the build process consists of checking out the git tag, building up the docker image, and running the build.  This is all done with a tremendous amount of network fetching, some of which may hiccup or stall.  Docker itself can get storage bound and throw other errors often difficult to see.  So if you fail a build consider the following to unjam your build
+
+1. [Reset Factory Defaults](https://www.kindacode.com/article/how-to-reset-docker-desktop/) in Docker - This will purge all your images and containers, but will also free up space.
+2. Shutdown and restart WSL (Windows Users): `wsl --shutdown && wsl` - I've noticed some of the fuse mounts can get stale in WSL.  This seems to clear them up
+3. Remove the `repo` directory - This project creates a directory named `repo` that the builds are done from.  Sometimes the `git restore` commands will fail silently, and this will often clean it up.
+
+If I get two consecutive failed builds, I'll uusally mark the build as failed. 
 
 ## Submitting Attestation
 
