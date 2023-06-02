@@ -1,0 +1,57 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+verify.sh Version:       0.2
+Intended Build Version:  2023-05-12T1317-v6.0.0X
+repro-build.sh Version:  2023-05-12T1317-v6.0.0X
+Build Command:           make -f MK4-Makefile repro
+
+Comparing against: /tmp/checkout/firmware/releases/2023-05-12T1316-v6.0.0X-mk4-coldcard.dfu
+test -n "/tmp/checkout/firmware/releases/2023-05-12T1316-v6.0.0X-mk4-coldcard.dfu" -a -f /tmp/checkout/firmware/releases/2023-05-12T1316-v6.0.0X-mk4-coldcard.dfu
+rm -f -f check-fw.bin check-bootrom.bin
+signit split /tmp/checkout/firmware/releases/2023-05-12T1316-v6.0.0X-mk4-coldcard.dfu check-fw.bin check-bootrom.bin
+start 293 for 933888 bytes: Firmware => check-fw.bin
+signit check check-fw.bin
+     magic_value: 0xcc001234
+       timestamp: 2023-05-12 13:17:01 UTC
+  version_string: 6.0.0X
+      pubkey_num: 1
+ firmware_length: 933888
+   install_flags: 0x0 =>
+       hw_compat: 0x8 => Mk4
+         best_ts: b'\x00\x00\x00\x00\x00\x00\x00\x00'
+          future: 0000000000000000 ... 0000000000000000
+       signature: 1157e64d54554c36 ... 37a97cb06ce73896
+sha256^2: 1cc50f1a7ad2003f4de8ac134c7e2ad97b1c3f065f2e0aa050306cde32946460
+ ECDSA Signature: CORRECT
+signit check firmware-signed.bin
+     magic_value: 0xcc001234
+       timestamp: 2023-06-02 00:20:09 UTC
+  version_string: 6.0.0X
+      pubkey_num: 0
+ firmware_length: 933888
+   install_flags: 0x0 =>
+       hw_compat: 0x8 => Mk4
+         best_ts: b'\x00\x00\x00\x00\x00\x00\x00\x00'
+          future: 0000000000000000 ... 0000000000000000
+       signature: 88ac8cec8256769b ... 3686e8c1286992a4
+sha256^2: 948a915caf37a49eced3f59eb0f0079d5e35906aca0f07bd91f59d2658216e2f
+ ECDSA Signature: CORRECT
+hexdump -C firmware-signed.bin | sed -e 's/^00003f[89abcdef]0 .*/(firmware signature here)/' > repro-got.txt
+hexdump -C check-fw.bin | sed -e 's/^00003f[89abcdef]0 .*/(firmware signature here)/' > repro-want.txt
+diff repro-got.txt repro-want.txt
+
+SUCCESS. 
+
+You have built a bit-for-bit identical copy of Coldcard firmware for v6.0.0X
+-----BEGIN PGP SIGNATURE-----
+
+iQFEBAEBCAAuFiEEInA5woTu8wMFlVvhvyXVl6CjNXIFAmR5OCQQHGJyaWFuZGRr
+QHJlZGRpdAAKCRC/JdWXoKM1cj0cCACZtlfjQjZPjNuHkuyLGH3pBx0vqINAGpRZ
+EdlvXhm8Pz6AHD+q//+pbQFYqjVPfMMSJ419MUt9gpJX8Tk9rK6wf6+Twin2pSnL
+XJSy6IqUY6oL9C2qSNeW5fhnXvdtH4Mb0mqjMWWdf7A6IRGAqTfVK2BAVZzdv/IX
+ekxUb1aky00AReuW6GvHlJDf7KWCIObmo6JwQamrNyZUgqC7dzM5xyMwU2m//B+l
+FcYFKNZZmX9T3gBRwvhtAn1cPmx5bNihrTNppYnpl6mltSO2cn7ffXb/8Hk8eBsr
+5Ttc9d523N5iyPLtGodh7N4Ge8NtLVYsUhM+1sHjiTHnCFo97Gzr
+=4R+2
+-----END PGP SIGNATURE-----

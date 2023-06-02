@@ -1,0 +1,74 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+verify.sh Version:       0.2
+Intended Build Version:  2022-10-05T1517-v4.1.6
+repro-build.sh Version:  2022-10-05T1517-v4.1.6
+Build Command:           make -f Makefile repro
+
+Comparing against: ../releases/2022-10-05T1517-v4.1.6-coldcard.dfu
+test -n "../releases/2022-10-05T1517-v4.1.6-coldcard.dfu" -a -f ../releases/2022-10-05T1517-v4.1.6-coldcard.dfu
+rm -f -f check-fw.bin check-bootrom.bin
+signit split ../releases/2022-10-05T1517-v4.1.6-coldcard.dfu check-fw.bin check-bootrom.bin
+start 293 for 729088 bytes: Firmware => check-fw.bin
+start 729389 for 30720 bytes: Bootrom => check-bootrom.bin
+signit check check-fw.bin
+     magic_value: 0xcc001234
+       timestamp: 2022-10-05 15:17:13 UTC
+  version_string: 4.1.6
+      pubkey_num: 1
+ firmware_length: 729088
+   install_flags: 0x0 =>
+       hw_compat: 0x6 => Mk2+Mk3
+          future: 0000000000000000 ... 0000000000000000
+       signature: 5ef04d8cafd6b2d3 ... ca828cb7e28ae3c0
+ ECDSA Signature: CORRECT
+signit check firmware-signed.bin
+     magic_value: 0xcc001234
+       timestamp: 2023-06-02 01:37:28 UTC
+  version_string: 4.1.6
+      pubkey_num: 0
+ firmware_length: 729088
+   install_flags: 0x0 =>
+       hw_compat: 0x6 => Mk2+Mk3
+          future: 0000000000000000 ... 0000000000000000
+       signature: f413111efb0f2ef0 ... 04fa60ffbaa9592b
+ ECDSA Signature: CORRECT
+hexdump -C firmware-signed.bin | sed -e 's/^00003f[89abcdef]0 .*/(firmware signature here)/' > repro-got.txt
+hexdump -C check-fw.bin | sed -e 's/^00003f[89abcdef]0 .*/(firmware signature here)/' > repro-want.txt
+diff repro-got.txt repro-want.txt
+- --- repro-got.txt
++++ repro-want.txt
+@@ -41570,8 +41570,8 @@
+ 000a2dc0  20 74 6f 20 65 78 69 74  0d 0a 00 52 01 00 4d 69  | to exit...R..Mi|
+ 000a2dd0  63 72 6f 50 79 74 68 6f  6e 20 76 31 2e 31 32 2d  |croPython v1.12-|
+ 000a2de0  31 30 39 32 2d 67 63 30  38 37 62 62 65 38 64 2d  |1092-gc087bbe8d-|
+- -000a2df0  64 69 72 74 79 20 6f 6e  20 32 30 32 33 2d 30 36  |dirty on 2023-06|
+- -000a2e00  2d 30 32 3b 20 43 6f 6c  64 63 61 72 64 20 77 69  |-02; Coldcard wi|
++000a2df0  64 69 72 74 79 20 6f 6e  20 32 30 32 32 2d 31 30  |dirty on 2022-10|
++000a2e00  2d 30 35 3b 20 43 6f 6c  64 63 61 72 64 20 77 69  |-05; Coldcard wi|
+ 000a2e10  74 68 20 53 54 4d 33 32  4c 34 78 78 52 47 0d 0a  |th STM32L4xxRG..|
+ 000a2e20  00 54 79 70 65 20 22 68  65 6c 70 28 29 22 20 66  |.Type "help()" f|
+ 000a2e30  6f 72 20 6d 6f 72 65 20  69 6e 66 6f 72 6d 61 74  |or more informat|
+@@ -42548,7 +42548,7 @@
+ 000a6ae0  20 77 69 74 68 20 53 54  4d 33 32 4c 34 78 78 52  | with STM32L4xxR|
+ 000a6af0  47 00 76 31 2e 31 32 2d  31 30 39 32 2d 67 63 30  |G.v1.12-1092-gc0|
+ 000a6b00  38 37 62 62 65 38 64 2d  64 69 72 74 79 20 6f 6e  |87bbe8d-dirty on|
+- -000a6b10  20 32 30 32 33 2d 30 36  2d 30 32 00 31 2e 31 33  | 2023-06-02.1.13|
++000a6b10  20 32 30 32 32 2d 31 30  2d 30 35 00 31 2e 31 33  | 2022-10-05.1.13|
+ 000a6b20  2e 30 00 70 79 62 6f 61  72 64 00 00 d0 5b 05 08  |.0.pyboard...[..|
+ 000a6b30  39 d3 03 08 88 62 05 08  3c eb 0a 08 54 53 05 08  |9....b..<...TS..|
+ 000a6b40  9f 00 00 00 13 00 00 00  4c eb 0a 08 ba 00 00 00  |........L.......|
+make: *** [Makefile:279: check-repro] Error 1
++ set +ex
+-----BEGIN PGP SIGNATURE-----
+
+iQFEBAEBCAAuFiEEInA5woTu8wMFlVvhvyXVl6CjNXIFAmR5R+IQHGJyaWFuZGRr
+QHJlZGRpdAAKCRC/JdWXoKM1cgk+CACXKY8j8JGfF3o8gXS4u+ZaiyIvvp4iz9fc
+1mGfVqHXGGku85X46COjuC7IXd3PPKRKsX5yHV8yfcZeqj6pTmPE5sE9uJTA1s2T
+iqMTKIOk2IBreZeR+KzRLRSo91rgpx67VqDut0l3SKWOSgmHOUs1KvtuewFoCpXv
+cFPijkENXctAKxbH7qY6yEsd2OZBOW9S/qKsKYB7rInzqG8rk3vC61Tuz8fNAV22
+g3FKKhsoWGrQFU/fP+iWpsWB4hbToPp6qJE2HC9dkImjLXOrjLKLoOWB2Cgf7OhG
+4QQ149/yOu8QrfYgEhSwrKRmoJg90PPDZXCf7C74grqlreKTInB2
+=YLtH
+-----END PGP SIGNATURE-----

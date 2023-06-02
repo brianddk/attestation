@@ -1,0 +1,58 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+verify.sh Version:       0.2
+Intended Build Version:  2023-02-27T2106-v5.1.1
+repro-build.sh Version:  2023-02-27T2106-v5.1.1
+Build Command:           make -f MK4-Makefile repro
+
+Comparing against: /tmp/checkout/firmware/releases/2023-02-27T2105-v5.1.1-mk4-coldcard.dfu
+test -n "/tmp/checkout/firmware/releases/2023-02-27T2105-v5.1.1-mk4-coldcard.dfu" -a -f /tmp/checkout/firmware/releases/2023-02-27T2105-v5.1.1-mk4-coldcard.dfu
+rm -f -f check-fw.bin check-bootrom.bin
+signit split /tmp/checkout/firmware/releases/2023-02-27T2105-v5.1.1-mk4-coldcard.dfu check-fw.bin check-bootrom.bin
+start 293 for 890880 bytes: Firmware => check-fw.bin
+signit check check-fw.bin
+     magic_value: 0xcc001234
+       timestamp: 2023-02-27 21:06:05 UTC
+  version_string: 5.1.1
+      pubkey_num: 1
+ firmware_length: 890880
+   install_flags: 0x0 =>
+       hw_compat: 0x8 => Mk4
+         best_ts: b'\x00\x00\x00\x00\x00\x00\x00\x00'
+          future: 0000000000000000 ... 0000000000000000
+       signature: edff3627bd8e65a4 ... 76da7c89a1a9ea27
+sha256^2: 1d9b86a659e8839dd537ef88f92bc1a7e4057940a1a83d16d2c9770b69a2d02b
+ ECDSA Signature: CORRECT
+signit check firmware-signed.bin
+     magic_value: 0xcc001234
+       timestamp: 2023-06-02 01:24:52 UTC
+  version_string: 5.1.1
+      pubkey_num: 0
+ firmware_length: 890880
+   install_flags: 0x0 =>
+       hw_compat: 0x8 => Mk4
+         best_ts: b'\x00\x00\x00\x00\x00\x00\x00\x00'
+          future: 0000000000000000 ... 0000000000000000
+       signature: cb74716acbb5d4f2 ... 41c83ecd4e8b93cd
+sha256^2: 436a7acab3b79bf07569df63fbf6a7979bb20e92484c6f42b52de88df16a7680
+ ECDSA Signature: CORRECT
+hexdump -C firmware-signed.bin | sed -e 's/^00003f[89abcdef]0 .*/(firmware signature here)/' > repro-got.txt
+hexdump -C check-fw.bin | sed -e 's/^00003f[89abcdef]0 .*/(firmware signature here)/' > repro-want.txt
+diff repro-got.txt repro-want.txt
+
+SUCCESS. 
+
+You have built a bit-for-bit identical copy of Coldcard firmware for v5.1.1
++ set +ex
+-----BEGIN PGP SIGNATURE-----
+
+iQFEBAEBCAAuFiEEInA5woTu8wMFlVvhvyXVl6CjNXIFAmR5RPEQHGJyaWFuZGRr
+QHJlZGRpdAAKCRC/JdWXoKM1cv2LB/4vvIj2ZuBXcfdp/SNW1i9brIuqDMs2NRdo
+LkepjyyAjCJg0+AT04qp8pJ/OFufpfQwuRwNqw5FqDfNexsNh+/j3eXfk1Y5SPdc
+K4Km1P3IaA8+LpjbZbqAah36n3u/9NUDca18EDjTyw2+6Zt8jL7dCj2nsC2BmXNb
+p0qvDTG/KCogzwVmiVbxOPYy2YmH1cv/KRPgEm5lEIEue460yenqHYVHa7LbX5V6
+b/SUFS3CSnEzyQrn7Y47S7VXbRlgQ+7ArQtKngFiXZTckn1r6rBQcwyq4zfqWrG+
+CEYurOY1p1fgsWMwgmRpr88DEVXEfw04LXzYsWqjFNO7VZkuUAUB
+=kRu9
+-----END PGP SIGNATURE-----
