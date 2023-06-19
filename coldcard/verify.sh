@@ -32,6 +32,7 @@ mk_cmd["2022-05-04T1252-v5.0.3"]="make -f MK4-Makefile repro"
 mk_cmd["2022-04-19T1805-v5.0.2"]="make -f MK4-Makefile repro"
 mk_cmd["2022-03-24T1643-v5.0.1"]="make -f MK4-Makefile repro"
 mk_cmd["2022-03-14T1907-v5.0.0"]="make -f MK4-Makefile repro"
+mk_cmd["2023-06-19T1627-v4.1.8"]="make -f Makefile repro"
 mk_cmd["2022-11-14T1854-v4.1.7"]="make -f Makefile repro"
 mk_cmd["2022-10-05T1517-v4.1.6"]="make -f Makefile repro"
 mk_cmd["2022-05-04T1258-v4.1.5"]="make -f Makefile repro" # Dockerfile:23 | >>> RUN ln -s /usr/bin/python3 /usr/bin/python ( <== file exists )

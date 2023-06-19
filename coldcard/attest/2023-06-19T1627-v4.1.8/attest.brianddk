@@ -1,0 +1,55 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+verify.sh Version:       0.2
+Intended Build Version:  2023-06-19T1627-v4.1.8
+repro-build.sh Version:  2023-06-19T1627-v4.1.8
+Build Command:           make -f Makefile repro
+
+Comparing against: ../releases/2023-06-19T1627-v4.1.8-coldcard.dfu
+test -n "../releases/2023-06-19T1627-v4.1.8-coldcard.dfu" -a -f ../releases/2023-06-19T1627-v4.1.8-coldcard.dfu
+rm -f -f check-fw.bin check-bootrom.bin
+signit split ../releases/2023-06-19T1627-v4.1.8-coldcard.dfu check-fw.bin check-bootrom.bin
+start 293 for 722944 bytes: Firmware => check-fw.bin
+start 723245 for 30720 bytes: Bootrom => check-bootrom.bin
+signit check check-fw.bin
+     magic_value: 0xcc001234
+       timestamp: 2023-06-19 16:27:07 UTC
+  version_string: 4.1.8
+      pubkey_num: 1
+ firmware_length: 722944
+   install_flags: 0x0 =>
+       hw_compat: 0x6 => Mk2+Mk3
+          future: 0000000000000000 ... 0000000000000000
+       signature: 32aed0d2ef1d5647 ... 1bf6812ca5046f07
+ ECDSA Signature: CORRECT
+signit check firmware-signed.bin
+     magic_value: 0xcc001234
+       timestamp: 2023-06-19 19:42:49 UTC
+  version_string: 4.1.8
+      pubkey_num: 0
+ firmware_length: 722944
+   install_flags: 0x0 =>
+       hw_compat: 0x6 => Mk2+Mk3
+          future: 0000000000000000 ... 0000000000000000
+       signature: 6dba6de135e1d30d ... b83600dd0af9626a
+ ECDSA Signature: CORRECT
+hexdump -C firmware-signed.bin | sed -e 's/^00003f[89abcdef]0 .*/(firmware signature here)/' > repro-got.txt
+hexdump -C check-fw.bin | sed -e 's/^00003f[89abcdef]0 .*/(firmware signature here)/' > repro-want.txt
+diff repro-got.txt repro-want.txt
+
+SUCCESS. 
+
+You have built a bit-for-bit identical copy of Coldcard firmware for v4.1.8
++ set +ex
+-----BEGIN PGP SIGNATURE-----
+
+iQFEBAEBCAAuFiEEYoX6CPtntyvk2kGEg18EM6bVGGAFAmSQr8QQHGJyaWFuZGRr
+QHJlZGRpdAAKCRCDXwQzptUYYBd7B/4kXpCy0CpLxGhW96X1EOdlLw32ur+vg8Jf
+momCgr7o1HRqm41sFv4OkRviBjdFhK+P6w5U77O3m35DjsoClmheCyX9c/zrBnWN
+qJ0yf4XjK1oCQ7RYmW0yyYp7j6swCJgxY5wxm3UGePeGUaSpZ8BfNy0OeujPfj/Q
+Dx/PzBTPFDtk5SI2MCXGqdaO2TeODeOpTS+44WyVe2m8F7z+/6qSG8/HMOXpprB9
+4Xe7LjcKoO0UebR0i9ZOVs0GK9G99Rse8yX2AO3MN3z8MzarKQG6q9a8cYbWO32F
+vvEIWZGwG0iJ2nXEbYk8lP+OHwWuVcibTS8lPqJrk0eq64xRlJ6u
+=wWBi
+-----END PGP SIGNATURE-----
