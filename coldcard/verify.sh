@@ -20,6 +20,8 @@
 
 declare -A mk_cmd
 
+
+mk_cmd["2023-06-20T1506-v6.1.0X"]="make -f MK4-Makefile repro"
 mk_cmd["2023-05-12T1317-v6.0.0X"]="make -f MK4-Makefile repro"
 mk_cmd["2023-04-07T1330-v5.1.2"]="make -f MK4-Makefile repro"
 mk_cmd["2023-02-27T2106-v5.1.1"]="make -f MK4-Makefile repro" # NOT 2023-02-27T2105-v5.1.1

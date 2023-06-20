@@ -26,7 +26,7 @@ sha256^2: 51134daee0aebc2ed5d81a7956a4e931c39ec0a85bfaaba923c38feab591e761
  ECDSA Signature: CORRECT
 signit check firmware-signed.bin
      magic_value: 0xcc001234
-       timestamp: 2023-06-02 01:03:10 UTC
+       timestamp: 2023-06-20 20:01:04 UTC
   version_string: 5.1.2
       pubkey_num: 0
  firmware_length: 892928
@@ -34,8 +34,8 @@ signit check firmware-signed.bin
        hw_compat: 0x8 => Mk4
          best_ts: b'\x00\x00\x00\x00\x00\x00\x00\x00'
           future: 0000000000000000 ... 0000000000000000
-       signature: 684d3ef460ee153a ... 73a4100bb9ff912f
-sha256^2: bd6cfa1618bc08b958d6f974417024619d0aefbb9bf6093bf55a594ada21fe83
+       signature: df7ac2bc9ec6d5ca ... ab76408561ea3e85
+sha256^2: e91732769282e60c312cd2675a9fd1e4573364810f5e8d6ecb4ed94270184f71
  ECDSA Signature: CORRECT
 hexdump -C firmware-signed.bin | sed -e 's/^00003f[89abcdef]0 .*/(firmware signature here)/' > repro-got.txt
 hexdump -C check-fw.bin | sed -e 's/^00003f[89abcdef]0 .*/(firmware signature here)/' > repro-want.txt
@@ -47,12 +47,12 @@ You have built a bit-for-bit identical copy of Coldcard firmware for v5.1.2
 + set +ex
 -----BEGIN PGP SIGNATURE-----
 
-iQFEBAEBCAAuFiEEInA5woTu8wMFlVvhvyXVl6CjNXIFAmR5P9sQHGJyaWFuZGRr
-QHJlZGRpdAAKCRC/JdWXoKM1ctkgB/9CSGghJt4sde24VebD1tUpJsqYA3Kd6Olv
-+Wkb/xW9Iuxaw+uXwtEml3jsotb/sM0QTlJ1p93wwQQIUAa9sW0DtciC3kwlUoCW
-iYQd6yc6m0h7/TAfwNQsW9Av+mUDVQ8NcZhljHHGJOoHAIUdJWXI7Q42mQnNFCZN
-nTxJY82cT+iWSAMWNe5BsTbIVvjNJ1WX5iNukzN8vzcVnzrnzlB0JlcEtTVZ8LyM
-4Zf+yY9ogMTjEJnelVxCznwKJF/9sEFZGykgSx8QHa3hArTX7zoke0+HvMqTM32v
-eXB8l5/7TLE2rYPpuCZPUCvr65OZ8Fgiltjtm+ii1KMtzZ2M7rBO
-=gGnG
+iQFEBAEBCAAuFiEEYoX6CPtntyvk2kGEg18EM6bVGGAFAmSSBZAQHGJyaWFuZGRr
+QHJlZGRpdAAKCRCDXwQzptUYYEqECACBU5KTswPntaBWvUpfnYSs9KH/IxfjUkoe
+vMtAndA1bGKLrRWg42oGTRPo5XXAHgi3QgjV1PSyU3GEivi7aZfUg+ilcOER5DlJ
+Tm4acet9cYSH+v8NGoe5+g2uSVVZQVW/WvA1/q9rD17DkuboVWABLqdet2TTUfJE
+ubpatj+CHw9oOycnlVxEviS3tWm1DVbiZwqIahWmc+lcOYQ0yXVwTF8Q5xbUFa8r
+CEQpSFQ5uGCFofrOzJDw8nStVOUOmsG5nHDYWIHN7DsN4Fjuu49YRzx6vnzZ7VG0
+1bPCAV/QOhMnR5dmmYi76dM1TmX729n8d7XJUI54UIw2jU7EEIq4
+=0lAF
 -----END PGP SIGNATURE-----

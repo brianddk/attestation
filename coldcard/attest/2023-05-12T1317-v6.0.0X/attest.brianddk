@@ -26,7 +26,7 @@ sha256^2: 1cc50f1a7ad2003f4de8ac134c7e2ad97b1c3f065f2e0aa050306cde32946460
  ECDSA Signature: CORRECT
 signit check firmware-signed.bin
      magic_value: 0xcc001234
-       timestamp: 2023-06-02 00:20:09 UTC
+       timestamp: 2023-06-20 20:06:04 UTC
   version_string: 6.0.0X
       pubkey_num: 0
  firmware_length: 933888
@@ -34,8 +34,8 @@ signit check firmware-signed.bin
        hw_compat: 0x8 => Mk4
          best_ts: b'\x00\x00\x00\x00\x00\x00\x00\x00'
           future: 0000000000000000 ... 0000000000000000
-       signature: 88ac8cec8256769b ... 3686e8c1286992a4
-sha256^2: 948a915caf37a49eced3f59eb0f0079d5e35906aca0f07bd91f59d2658216e2f
+       signature: 63b953042cc31b62 ... b98f149893c89b84
+sha256^2: 7576569e208499e8deb36cd234aeb0dd787189fcd83ed03322da87355c29e186
  ECDSA Signature: CORRECT
 hexdump -C firmware-signed.bin | sed -e 's/^00003f[89abcdef]0 .*/(firmware signature here)/' > repro-got.txt
 hexdump -C check-fw.bin | sed -e 's/^00003f[89abcdef]0 .*/(firmware signature here)/' > repro-want.txt
@@ -44,14 +44,15 @@ diff repro-got.txt repro-want.txt
 SUCCESS. 
 
 You have built a bit-for-bit identical copy of Coldcard firmware for v6.0.0X
++ set +ex
 -----BEGIN PGP SIGNATURE-----
 
-iQFEBAEBCAAuFiEEInA5woTu8wMFlVvhvyXVl6CjNXIFAmR5OCQQHGJyaWFuZGRr
-QHJlZGRpdAAKCRC/JdWXoKM1cj0cCACZtlfjQjZPjNuHkuyLGH3pBx0vqINAGpRZ
-EdlvXhm8Pz6AHD+q//+pbQFYqjVPfMMSJ419MUt9gpJX8Tk9rK6wf6+Twin2pSnL
-XJSy6IqUY6oL9C2qSNeW5fhnXvdtH4Mb0mqjMWWdf7A6IRGAqTfVK2BAVZzdv/IX
-ekxUb1aky00AReuW6GvHlJDf7KWCIObmo6JwQamrNyZUgqC7dzM5xyMwU2m//B+l
-FcYFKNZZmX9T3gBRwvhtAn1cPmx5bNihrTNppYnpl6mltSO2cn7ffXb/8Hk8eBsr
-5Ttc9d523N5iyPLtGodh7N4Ge8NtLVYsUhM+1sHjiTHnCFo97Gzr
-=4R+2
+iQFEBAEBCAAuFiEEYoX6CPtntyvk2kGEg18EM6bVGGAFAmSSBr0QHGJyaWFuZGRr
+QHJlZGRpdAAKCRCDXwQzptUYYOXQCAC21cClK+rbW4B0ggCQxmuJOhZ/q2XMhVfU
+8el8rnlP7I5kJoxyC6w1xluYqIpIpTtw8DK00FXNsKM4MuqQytVTRhoOZcY12AL/
+SOWvBTx5Pkiig4FQhj1KpYZzhcldrxvfi5OeYVLmAtRNYPoOpbjkIbY4ttGl/ZWP
+SMcXdsE1593eEVxL5hipcl8vI9Hu2Hji9XLgiX6a1w4gIbJmZZuXvehLB/SZuC6F
+sW/taHYKWo7/+yDYKf1xMiwsYLWORqH+NCO7hxosv3M5PB3MZYy53LB02jqMZstk
+ZfIBTzWBtZwualugUlGWVUW40AeucavTqyw6O968piRIdsYwTVy4
+=LlSE
 -----END PGP SIGNATURE-----
